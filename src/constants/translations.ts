@@ -1,7 +1,7 @@
 export const translations = {
   en: {
     hero: {
-      title: "Fabian",
+      title: "Habib Fabian Fahlesi",
       subtitle: "Full-Stack Developer",
       description: "Passionate Web2 & Web3 developer building innovative solutions for both traditional web applications and blockchain ecosystems.",
       cta: "View My Work",
@@ -37,7 +37,7 @@ export const translations = {
     projects: {
       title: "Featured Projects",
       web3: "Blockchain Projects",
-      web2: "Web Applications",
+      web2: "Web Development & Mobile Applications",
       viewProject: "View Project",
       viewCode: "View Code"
     },
@@ -56,7 +56,7 @@ export const translations = {
   },
   id: {
     hero: {
-      title: "Fabian",
+      title: "Habib Fabian Fahlesi",
       subtitle: "Full-Stack Developer",
       description: "Developer Web2 & Web3 yang berpengalaman dalam membangun solusi inovatif untuk aplikasi web tradisional dan ekosistem blockchain.",
       cta: "Lihat Karya Saya",
@@ -92,7 +92,7 @@ export const translations = {
     projects: {
       title: "Proyek Unggulan", 
       web3: "Proyek Blockchain",
-      web2: "Aplikasi Web",
+      web2: "Pengembangan Web & Aplikasi Mobile",
       viewProject: "Lihat Proyek",
       viewCode: "Lihat Kode"
     },
