@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import { useLanguage } from "@/contexts/LanguageContext"
 import { translations } from "@/constants/translations"
 import { LanguageToggle } from "@/components/LanguageToggle"
@@ -9,7 +9,7 @@ import { ProjectModal } from "@/components/ProjectModal"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { GitHubLogoIcon, LinkedInLogoIcon } from '@radix-ui/react-icons'
-import { Mail, ExternalLink, Code2, Rocket, Zap, Globe, Cpu, Database } from 'lucide-react'
+import { Mail, ExternalLink, Code2, Rocket, Zap, Globe, Cpu, Database, Menu, X } from 'lucide-react'
 import type { Project } from '@/types/project'
 
 function App() {
@@ -17,10 +17,24 @@ function App() {
   const t = translations[language]
   const [selectedProject, setSelectedProject] = useState<Project | null>(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   useEffect(() => {
     document.documentElement.className = 'dark'
   }, [])
+
+  // Close mobile menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as HTMLElement
+      if (isMobileMenuOpen && !target.closest('nav') && !target.closest('.mobile-menu')) {
+        setIsMobileMenuOpen(false)
+      }
+    }
+
+    document.addEventListener('click', handleClickOutside)
+    return () => document.removeEventListener('click', handleClickOutside)
+  }, [isMobileMenuOpen])
 
   // Project data
   const projectsData = {
@@ -28,7 +42,7 @@ function App() {
       {
         id: 'defi-protocol',
         title: language === 'en' ? 'DeFi Protocol' : 'Protokol DeFi',
-        description: language === 'en' 
+        description: language === 'en'
           ? 'Decentralized exchange with automated market maker'
           : 'Pertukaran terdesentralisasi dengan market maker otomatis',
         longDescription: language === 'en'
@@ -119,16 +133,16 @@ function App() {
       <AnimatedBackground />
       <FloatingElements />
       {/* Navigation */}
-      <motion.nav 
+      <motion.nav
         className="fixed top-0 w-full z-50 backdrop-blur-sm bg-background/80 border-b border-border/40"
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ type: "spring", stiffness: 300, damping: 30 }}
       >
         <div className="container mx-auto px-6 py-4 flex justify-between items-center">
-          <motion.div 
+          <motion.div
             className="text-2xl font-bold bg-gradient-to-r from-primary to-blue-400 bg-clip-text text-transparent cursor-pointer"
-            whileHover={{ 
+            whileHover={{
               scale: 1.1,
               textShadow: "0px 0px 8px rgb(59,130,246,0.8)"
             }}
@@ -137,11 +151,12 @@ function App() {
             F
           </motion.div>
           <div className="flex items-center gap-6">
+            {/* Desktop Navigation */}
             <div className="hidden md:flex gap-6">
               {Object.entries(t.nav).map(([key, value], index) => (
-                <motion.a 
-                  key={key} 
-                  href={`#${key}`} 
+                <motion.a
+                  key={key}
+                  href={`#${key}`}
                   className="text-sm text-muted-foreground hover:text-foreground transition-all duration-300 relative group"
                   initial={{ opacity: 0, y: -20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -155,14 +170,68 @@ function App() {
                 </motion.a>
               ))}
             </div>
+
+            {/* Language Toggle */}
             <LanguageToggle />
+
+            {/* Mobile Menu Button */}
+            <motion.button
+              className="md:hidden p-2 rounded-lg hover:bg-white/10 transition-colors"
+              onClick={() => {
+                console.log('Hamburger clicked, current state:', isMobileMenuOpen)
+                setIsMobileMenuOpen(!isMobileMenuOpen)
+              }}
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              {isMobileMenuOpen ? (
+                <X className="h-6 w-6 text-foreground" />
+              ) : (
+                <Menu className="h-6 w-6 text-foreground" />
+              )}
+            </motion.button>
           </div>
         </div>
       </motion.nav>
 
+      {/* Mobile Menu */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            initial={{ y: -300, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: -300, opacity: 0 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+            className="fixed top-[73px] left-0 right-0 z-40 md:hidden bg-background/95 backdrop-blur-md border-b border-border/40 mobile-menu"
+          >
+            <div className="container mx-auto px-6 py-6">
+              <div className="flex flex-col space-y-4">
+                {Object.entries(t.nav).map(([key, value], index) => (
+                  <motion.a
+                    key={key}
+                    href={`#${key}`}
+                    className="text-lg text-muted-foreground hover:text-foreground transition-all duration-300 py-3 border-b border-border/20 last:border-b-0"
+                    initial={{ x: -20, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    transition={{
+                      delay: 0.1 * index,
+                      duration: 0.3
+                    }}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    whileHover={{ x: 10 }}
+                  >
+                    {value}
+                  </motion.a>
+                ))}
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Hero Section */}
-      <motion.section 
-        id="hero" 
+      <motion.section
+        id="hero"
         className="pt-24 pb-12 px-6 relative overflow-hidden"
         variants={containerVariants}
         initial="hidden"
@@ -201,7 +270,7 @@ function App() {
             ease: "easeInOut"
           }}
         />
-        
+
         {/* Floating geometric shapes */}
         <motion.div
           className="absolute top-10 left-10 w-20 h-20 border-2 border-blue-400/30 rounded-full"
@@ -242,14 +311,13 @@ function App() {
             ease: "easeInOut"
           }}
         />
-        
+
         {/* Floating dots */}
         {Array.from({ length: 15 }).map((_, i) => (
           <motion.div
             key={`hero-particle-${i}`}
-            className={`absolute w-1 h-1 rounded-full ${
-              i % 3 === 0 ? 'bg-blue-400/40' : i % 3 === 1 ? 'bg-purple-400/40' : 'bg-cyan-400/40'
-            }`}
+            className={`absolute w-1 h-1 rounded-full ${i % 3 === 0 ? 'bg-blue-400/40' : i % 3 === 1 ? 'bg-purple-400/40' : 'bg-cyan-400/40'
+              }`}
             style={{
               left: `${10 + (i * 6)}%`,
               top: `${10 + (i % 5) * 15}%`,
@@ -272,7 +340,7 @@ function App() {
             {/* Left side - Text content */}
             <div className="text-center md:text-left">
               {/* Animated background glow */}
-              <motion.div 
+              <motion.div
                 className="absolute inset-0 bg-gradient-to-r from-blue-600/20 to-purple-600/20 blur-3xl -z-10"
                 animate={{
                   scale: [1, 1.2, 1],
@@ -284,169 +352,169 @@ function App() {
                   ease: "easeInOut"
                 }}
               />
-            
-            <motion.h1 
-              className="text-6xl md:text-8xl font-bold mb-4 relative"
-              variants={itemVariants}
-            >
-              {/* Sparkles around title */}
-              <motion.span
-                className="absolute -top-4 -left-4 text-2xl"
-                animate={{
-                  scale: [0, 1, 0],
-                  rotate: [0, 180, 360],
-                }}
-                transition={{
-                  duration: 3,
-                  repeat: Infinity,
-                  delay: 0,
-                  ease: "easeInOut"
-                }}
-              >
-                ✨
-              </motion.span>
-              <motion.span
-                className="absolute -top-6 -right-6 text-xl"
-                animate={{
-                  scale: [0, 1, 0],
-                  rotate: [0, -180, -360],
-                }}
-                transition={{
-                  duration: 3,
-                  repeat: Infinity,
-                  delay: 1,
-                  ease: "easeInOut"
-                }}
-              >
-                ⭐
-              </motion.span>
-              <motion.span
-                className="absolute -bottom-4 -right-8 text-2xl"
-                animate={{
-                  scale: [0, 1, 0],
-                  rotate: [0, 180, 360],
-                }}
-                transition={{
-                  duration: 3,
-                  repeat: Infinity,
-                  delay: 2,
-                  ease: "easeInOut"
-                }}
-              >
-                ✨
-              </motion.span>
-              
-              <motion.span 
-                className="bg-gradient-to-r from-white via-blue-100 to-purple-100 bg-clip-text text-transparent inline-block relative"
-                animate={{
-                  backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
-                }}
-                transition={{
-                  duration: 5,
-                  repeat: Infinity,
-                  ease: "linear"
-                }}
-                style={{
-                  backgroundSize: "200% 200%"
-                }}
-              >
-                {t.hero.title}
-              </motion.span>
-            </motion.h1>
 
-            <motion.h2 
-              className="text-xl md:text-2xl text-muted-foreground mb-6 font-medium relative inline-block"
-              variants={itemVariants}
-            >
-              <motion.span
-                className="absolute -left-8 top-1/2 -translate-y-1/2 text-blue-400/50"
-                animate={{
-                  x: [-5, 5, -5],
-                }}
-                transition={{
-                  duration: 2,
-                  repeat: Infinity,
-                  ease: "easeInOut"
-                }}
+              <motion.h1
+                className="text-6xl md:text-8xl font-bold mb-4 relative"
+                variants={itemVariants}
               >
-                ▸
-              </motion.span>
-              {t.hero.subtitle}
-              <motion.span
-                className="absolute -right-8 top-1/2 -translate-y-1/2 text-purple-400/50"
-                animate={{
-                  x: [5, -5, 5],
-                }}
-                transition={{
-                  duration: 2,
-                  repeat: Infinity,
-                  ease: "easeInOut"
-                }}
+                {/* Sparkles around title */}
+                <motion.span
+                  className="absolute -top-4 -left-4 text-2xl"
+                  animate={{
+                    scale: [0, 1, 0],
+                    rotate: [0, 180, 360],
+                  }}
+                  transition={{
+                    duration: 3,
+                    repeat: Infinity,
+                    delay: 0,
+                    ease: "easeInOut"
+                  }}
+                >
+                  ✨
+                </motion.span>
+                <motion.span
+                  className="absolute -top-6 -right-6 text-xl"
+                  animate={{
+                    scale: [0, 1, 0],
+                    rotate: [0, -180, -360],
+                  }}
+                  transition={{
+                    duration: 3,
+                    repeat: Infinity,
+                    delay: 1,
+                    ease: "easeInOut"
+                  }}
+                >
+                  ⭐
+                </motion.span>
+                <motion.span
+                  className="absolute -bottom-4 -right-8 text-2xl"
+                  animate={{
+                    scale: [0, 1, 0],
+                    rotate: [0, 180, 360],
+                  }}
+                  transition={{
+                    duration: 3,
+                    repeat: Infinity,
+                    delay: 2,
+                    ease: "easeInOut"
+                  }}
+                >
+                  ✨
+                </motion.span>
+
+                <motion.span
+                  className="bg-gradient-to-r from-white via-blue-100 to-purple-100 bg-clip-text text-transparent inline-block relative"
+                  animate={{
+                    backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
+                  }}
+                  transition={{
+                    duration: 5,
+                    repeat: Infinity,
+                    ease: "linear"
+                  }}
+                  style={{
+                    backgroundSize: "200% 200%"
+                  }}
+                >
+                  {t.hero.title}
+                </motion.span>
+              </motion.h1>
+
+              <motion.h2
+                className="text-xl md:text-2xl text-muted-foreground mb-6 font-medium relative inline-block"
+                variants={itemVariants}
               >
-                ◂
-              </motion.span>
-            </motion.h2>
+                <motion.span
+                  className="absolute -left-8 top-1/2 -translate-y-1/2 text-blue-400/50"
+                  animate={{
+                    x: [-5, 5, -5],
+                  }}
+                  transition={{
+                    duration: 2,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                  }}
+                >
+                  ▸
+                </motion.span>
+                {t.hero.subtitle}
+                <motion.span
+                  className="absolute -right-8 top-1/2 -translate-y-1/2 text-purple-400/50"
+                  animate={{
+                    x: [5, -5, 5],
+                  }}
+                  transition={{
+                    duration: 2,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                  }}
+                >
+                  ◂
+                </motion.span>
+              </motion.h2>
 
-            <motion.p 
-              className="text-lg text-muted-foreground/80 mb-12 max-w-2xl mx-auto leading-relaxed relative"
-              variants={itemVariants}
-            >
-              {t.hero.description}
-            </motion.p>
+              <motion.p
+                className="text-lg text-muted-foreground/80 mb-12 max-w-2xl mx-auto leading-relaxed relative"
+                variants={itemVariants}
+              >
+                {t.hero.description}
+              </motion.p>
 
-              <motion.div 
+              <motion.div
                 className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start"
                 variants={itemVariants}
               >
-              <motion.div
-                whileHover={{ scale: 1.05, y: -5 }}
-                whileTap={{ scale: 0.95 }}
-                className="relative group"
-              >
-                <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg blur opacity-25 group-hover:opacity-100 transition duration-300"></div>
-                <Button 
-                  size="lg" 
-                  className="relative bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-lg shadow-blue-500/25"
-                  onClick={() => {
-                    document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })
-                  }}
+                <motion.div
+                  whileHover={{ scale: 1.05, y: -5 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="relative group"
                 >
-                  <motion.div
-                    animate={{ rotate: 360 }}
-                    transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                  <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg blur opacity-25 group-hover:opacity-100 transition duration-300"></div>
+                  <Button
+                    size="lg"
+                    className="relative bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-lg shadow-blue-500/25"
+                    onClick={() => {
+                      document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })
+                    }}
                   >
-                    <Rocket className="mr-2 h-4 w-4" />
-                  </motion.div>
-                  {t.hero.cta}
-                </Button>
-              </motion.div>
+                    <motion.div
+                      animate={{ rotate: 360 }}
+                      transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                    >
+                      <Rocket className="mr-2 h-4 w-4" />
+                    </motion.div>
+                    {t.hero.cta}
+                  </Button>
+                </motion.div>
 
-              <motion.div
-                whileHover={{ scale: 1.05, y: -5 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <Button 
-                  variant="outline" 
-                  size="lg" 
-                  className="border-border/50 hover:bg-white/10 hover:border-white/20 backdrop-blur-sm transition-all duration-300"
-                  onClick={() => {
-                    const message = encodeURIComponent(
-                      language === 'en' 
-                        ? "Hi Fabian! I'm interested in discussing a project with you. Could we talk about potential collaboration?"
-                        : "Halo Fabian! Saya tertarik untuk mendiskusikan proyek dengan Anda. Bisakah kita berbicara tentang kemungkinan kolaborasi?"
-                    )
-                    window.open(`https://wa.me/6282232018289?text=${message}`, '_blank')
-                  }}
+                <motion.div
+                  whileHover={{ scale: 1.05, y: -5 }}
+                  whileTap={{ scale: 0.95 }}
                 >
-                  <Mail className="mr-2 h-4 w-4" />
-                  {t.hero.contact}
-                </Button>
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    className="border-border/50 hover:bg-white/10 hover:border-white/20 backdrop-blur-sm transition-all duration-300"
+                    onClick={() => {
+                      const message = encodeURIComponent(
+                        language === 'en'
+                          ? "Hi Fabian! I'm interested in discussing a project with you. Could we talk about potential collaboration?"
+                          : "Halo Fabian! Saya tertarik untuk mendiskusikan proyek dengan Anda. Bisakah kita berbicara tentang kemungkinan kolaborasi?"
+                      )
+                      window.open(`https://wa.me/6282232018289?text=${message}`, '_blank')
+                    }}
+                  >
+                    <Mail className="mr-2 h-4 w-4" />
+                    {t.hero.contact}
+                  </Button>
+                </motion.div>
               </motion.div>
-            </motion.div>
             </div>
-            
+
             {/* Right side - Photo */}
-            <motion.div 
+            <motion.div
               className="relative flex justify-center md:justify-end"
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -465,8 +533,8 @@ function App() {
                   }}
                 />
                 <motion.img
-                  src="/your-photo.jpg"
-                  alt="Habib Fabian Fahlesi"
+                  src="/assets/my-photo.jpeg"
+                  alt="Fabian"
                   className="relative w-64 h-64 md:w-80 md:h-80 rounded-full object-cover border-4 border-border/20 shadow-2xl"
                   whileHover={{ scale: 1.05 }}
                   transition={{ type: "spring", stiffness: 300 }}
@@ -494,8 +562,8 @@ function App() {
       </section>
 
       {/* Services Section */}
-      <motion.section 
-        id="services" 
+      <motion.section
+        id="services"
         className="py-20 px-6 bg-muted/5 relative"
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
@@ -503,7 +571,7 @@ function App() {
         viewport={{ once: true }}
       >
         <div className="container mx-auto max-w-6xl">
-          <motion.div 
+          <motion.div
             className="text-center mb-16"
             initial={{ y: 50, opacity: 0 }}
             whileInView={{ y: 0, opacity: 1 }}
@@ -517,7 +585,7 @@ function App() {
               {t.services.subtitle}
             </p>
           </motion.div>
-          
+
           <div className="grid md:grid-cols-3 gap-8">
             {[
               { icon: Globe, color: "blue", service: t.services.web2, delay: 0 },
@@ -536,44 +604,41 @@ function App() {
                 <motion.div
                   className="absolute -inset-1 bg-gradient-to-r rounded-lg blur opacity-25 group-hover:opacity-75 transition duration-300"
                   style={{
-                    backgroundImage: `linear-gradient(to right, rgb(${
-                      color === 'blue' ? '59, 130, 246' :
-                      color === 'purple' ? '168, 85, 247' :
-                      '16, 185, 129'
-                    }), rgb(${
-                      color === 'blue' ? '37, 99, 235' :
-                      color === 'purple' ? '147, 51, 234' :
-                      '5, 150, 105'
-                    }))`
+                    backgroundImage: `linear-gradient(to right, rgb(${color === 'blue' ? '59, 130, 246' :
+                        color === 'purple' ? '168, 85, 247' :
+                          '16, 185, 129'
+                      }), rgb(${color === 'blue' ? '37, 99, 235' :
+                        color === 'purple' ? '147, 51, 234' :
+                          '5, 150, 105'
+                      }))`
                   }}
                 />
-                
+
                 <Card className="relative bg-card/50 border-border/50 backdrop-blur-sm group-hover:bg-card/70 transition-all duration-300">
                   <CardContent className="p-8 text-center">
-                    <motion.div 
+                    <motion.div
                       className={`mb-6 mx-auto w-16 h-16 bg-gradient-to-br from-${color}-500/20 to-${color === 'blue' ? 'cyan' : color === 'purple' ? 'pink' : 'emerald'}-500/20 rounded-2xl flex items-center justify-center`}
-                      whileHover={{ 
+                      whileHover={{
                         scale: 1.2,
                         rotate: 360,
-                        boxShadow: `0 0 30px rgb(${
-                          color === 'blue' ? '59, 130, 246' :
-                          color === 'purple' ? '168, 85, 247' :
-                          '16, 185, 129'
-                        }, 0.3)`
+                        boxShadow: `0 0 30px rgb(${color === 'blue' ? '59, 130, 246' :
+                            color === 'purple' ? '168, 85, 247' :
+                              '16, 185, 129'
+                          }, 0.3)`
                       }}
                       transition={{ duration: 0.3 }}
                     >
                       <Icon className={`h-8 w-8 text-${color}-400`} />
                     </motion.div>
-                    
-                    <motion.h3 
+
+                    <motion.h3
                       className="text-xl font-semibold mb-4"
                       whileHover={{ scale: 1.05 }}
                     >
                       {service.title}
                     </motion.h3>
-                    
-                    <motion.p 
+
+                    <motion.p
                       className="text-muted-foreground"
                       initial={{ opacity: 0.8 }}
                       whileHover={{ opacity: 1 }}
@@ -595,74 +660,6 @@ function App() {
             {t.projects.title}
           </h2>
           <div className="space-y-12">
-            {/* Web3 Projects */}
-            <div>
-              <h3 className="text-2xl font-semibold mb-8 text-purple-400">{t.projects.web3}</h3>
-              <div className="grid md:grid-cols-2 gap-8">
-                {projectsData.web3.map((project, index) => (
-                  <motion.div
-                    key={project.id}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: index * 0.1 }}
-                    viewport={{ once: true }}
-                  >
-                    <Card 
-                      className="group hover:shadow-lg hover:shadow-purple-500/10 transition-all duration-300 bg-card/50 border-border/50 backdrop-blur-sm cursor-pointer overflow-hidden"
-                      onClick={() => {
-                        setSelectedProject(project)
-                        setIsModalOpen(true)
-                      }}
-                    >
-                      {project.image && (
-                        <div className="relative h-48 overflow-hidden">
-                          <img 
-                            src={project.image} 
-                            alt={project.title}
-                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                          />
-                          <div className="absolute inset-0 bg-gradient-to-t from-card to-transparent opacity-60" />
-                        </div>
-                      )}
-                      <CardContent className="p-6">
-                        <div className="flex items-center gap-2 mb-4">
-                          <project.icon className="h-5 w-5 text-purple-400" />
-                          <h4 className="text-xl font-semibold">{project.title}</h4>
-                        </div>
-                        <p className="text-muted-foreground mb-4">
-                          {project.description}
-                        </p>
-                        <div className="flex gap-2">
-                          <Button 
-                            variant="outline" 
-                            size="sm"
-                            onClick={(e) => {
-                              e.stopPropagation()
-                              window.open(project.demoLink, '_blank')
-                            }}
-                          >
-                            <ExternalLink className="mr-2 h-3 w-3" />
-                            {t.projects.viewProject}
-                          </Button>
-                          <Button 
-                            variant="ghost" 
-                            size="sm"
-                            onClick={(e) => {
-                              e.stopPropagation()
-                              window.open(project.codeLink, '_blank')
-                            }}
-                          >
-                            <Code2 className="mr-2 h-3 w-3" />
-                            {t.projects.viewCode}
-                          </Button>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </motion.div>
-                ))}
-              </div>
-            </div>
-
             {/* Web2 Projects */}
             <div>
               <h3 className="text-2xl font-semibold mb-8 text-blue-400">{t.projects.web2}</h3>
@@ -675,7 +672,7 @@ function App() {
                     transition={{ duration: 0.5, delay: index * 0.1 }}
                     viewport={{ once: true }}
                   >
-                    <Card 
+                    <Card
                       className="group hover:shadow-lg hover:shadow-blue-500/10 transition-all duration-300 bg-card/50 border-border/50 backdrop-blur-sm cursor-pointer overflow-hidden"
                       onClick={() => {
                         setSelectedProject(project)
@@ -684,8 +681,8 @@ function App() {
                     >
                       {project.image && (
                         <div className="relative h-48 overflow-hidden">
-                          <img 
-                            src={project.image} 
+                          <img
+                            src={project.image}
                             alt={project.title}
                             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                           />
@@ -701,8 +698,8 @@ function App() {
                           {project.description}
                         </p>
                         <div className="flex gap-2">
-                          <Button 
-                            variant="outline" 
+                          <Button
+                            variant="outline"
                             size="sm"
                             onClick={(e) => {
                               e.stopPropagation()
@@ -712,8 +709,8 @@ function App() {
                             <ExternalLink className="mr-2 h-3 w-3" />
                             {t.projects.viewProject}
                           </Button>
-                          <Button 
-                            variant="ghost" 
+                          <Button
+                            variant="ghost"
                             size="sm"
                             onClick={(e) => {
                               e.stopPropagation()
@@ -730,13 +727,82 @@ function App() {
                 ))}
               </div>
             </div>
+            {/* Web3 Projects */}
+            <div>
+              <h3 className="text-2xl font-semibold mb-8 text-purple-400">{t.projects.web3}</h3>
+              <div className="grid md:grid-cols-2 gap-8">
+                {projectsData.web3.map((project, index) => (
+                  <motion.div
+                    key={project.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                    viewport={{ once: true }}
+                  >
+                    <Card
+                      className="group hover:shadow-lg hover:shadow-purple-500/10 transition-all duration-300 bg-card/50 border-border/50 backdrop-blur-sm cursor-pointer overflow-hidden"
+                      onClick={() => {
+                        setSelectedProject(project)
+                        setIsModalOpen(true)
+                      }}
+                    >
+                      {project.image && (
+                        <div className="relative h-48 overflow-hidden">
+                          <img
+                            src={project.image}
+                            alt={project.title}
+                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-card to-transparent opacity-60" />
+                        </div>
+                      )}
+                      <CardContent className="p-6">
+                        <div className="flex items-center gap-2 mb-4">
+                          <project.icon className="h-5 w-5 text-purple-400" />
+                          <h4 className="text-xl font-semibold">{project.title}</h4>
+                        </div>
+                        <p className="text-muted-foreground mb-4">
+                          {project.description}
+                        </p>
+                        <div className="flex gap-2">
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={(e) => {
+                              e.stopPropagation()
+                              window.open(project.demoLink, '_blank')
+                            }}
+                          >
+                            <ExternalLink className="mr-2 h-3 w-3" />
+                            {t.projects.viewProject}
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={(e) => {
+                              e.stopPropagation()
+                              window.open(project.codeLink, '_blank')
+                            }}
+                          >
+                            <Code2 className="mr-2 h-3 w-3" />
+                            {t.projects.viewCode}
+                          </Button>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+
+
           </div>
         </div>
       </section>
 
       {/* Skills Section */}
-      <motion.section 
-        id="skills" 
+      <motion.section
+        id="skills"
         className="py-20 px-6 bg-muted/5"
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
@@ -744,7 +810,7 @@ function App() {
         viewport={{ once: true }}
       >
         <div className="container mx-auto max-w-6xl">
-          <motion.h2 
+          <motion.h2
             className="text-4xl font-bold text-center mb-16 bg-gradient-to-r from-foreground to-muted-foreground bg-clip-text text-transparent"
             initial={{ y: 50, opacity: 0 }}
             whileInView={{ y: 0, opacity: 1 }}
@@ -753,7 +819,7 @@ function App() {
           >
             {t.skills.title}
           </motion.h2>
-          
+
           <div className="grid md:grid-cols-3 gap-8">
             {[
               { title: t.skills.web2, color: 'blue', skills: ['React', 'TypeScript', 'Node.js', 'Next.js', 'Tailwind CSS', 'PostgreSQL'] },
@@ -769,7 +835,7 @@ function App() {
               >
                 <Card className="bg-card/50 border-border/50 backdrop-blur-sm hover:bg-card/70 transition-all duration-300">
                   <CardContent className="p-6">
-                    <motion.h3 
+                    <motion.h3
                       className={`text-xl font-semibold mb-4 text-${color}-400`}
                       whileHover={{ scale: 1.05 }}
                     >
@@ -783,14 +849,13 @@ function App() {
                           initial={{ opacity: 0, scale: 0.8 }}
                           whileInView={{ opacity: 1, scale: 1 }}
                           transition={{ delay: (categoryIndex * 0.1) + (skillIndex * 0.1) }}
-                          whileHover={{ 
-                            scale: 1.1, 
+                          whileHover={{
+                            scale: 1.1,
                             y: -2,
-                            boxShadow: `0 5px 15px rgb(${
-                              color === 'blue' ? '59, 130, 246' :
-                              color === 'purple' ? '168, 85, 247' :
-                              '16, 185, 129'
-                            }, 0.3)`
+                            boxShadow: `0 5px 15px rgb(${color === 'blue' ? '59, 130, 246' :
+                                color === 'purple' ? '168, 85, 247' :
+                                  '16, 185, 129'
+                              }, 0.3)`
                           }}
                           whileTap={{ scale: 0.95 }}
                           viewport={{ once: true }}
@@ -808,8 +873,8 @@ function App() {
       </motion.section>
 
       {/* Contact Section */}
-      <motion.section 
-        id="contact" 
+      <motion.section
+        id="contact"
         className="py-20 px-6 relative"
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
@@ -817,7 +882,7 @@ function App() {
         viewport={{ once: true }}
       >
         <div className="container mx-auto max-w-4xl text-center">
-          <motion.h2 
+          <motion.h2
             className="text-4xl font-bold mb-4 bg-gradient-to-r from-foreground to-muted-foreground bg-clip-text text-transparent"
             initial={{ y: 50, opacity: 0 }}
             whileInView={{ y: 0, opacity: 1 }}
@@ -826,8 +891,8 @@ function App() {
           >
             {t.contact.title}
           </motion.h2>
-          
-          <motion.h3 
+
+          <motion.h3
             className="text-2xl font-semibold mb-6 text-muted-foreground"
             initial={{ y: 30, opacity: 0 }}
             whileInView={{ y: 0, opacity: 1 }}
@@ -836,8 +901,8 @@ function App() {
           >
             {t.contact.subtitle}
           </motion.h3>
-          
-          <motion.p 
+
+          <motion.p
             className="text-lg text-muted-foreground mb-12 max-w-2xl mx-auto"
             initial={{ y: 30, opacity: 0 }}
             whileInView={{ y: 0, opacity: 1 }}
@@ -846,8 +911,8 @@ function App() {
           >
             {t.contact.description}
           </motion.p>
-          
-          <motion.div 
+
+          <motion.div
             className="flex flex-col sm:flex-row gap-4 justify-center mb-12"
             initial={{ y: 30, opacity: 0 }}
             whileInView={{ y: 0, opacity: 1 }}
@@ -860,12 +925,12 @@ function App() {
               className="relative group"
             >
               <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg blur opacity-25 group-hover:opacity-100 transition duration-300"></div>
-              <Button 
-                size="lg" 
+              <Button
+                size="lg"
                 className="relative bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-lg shadow-blue-500/25"
                 onClick={() => {
                   const message = encodeURIComponent(
-                    language === 'en' 
+                    language === 'en'
                       ? "Hi Fabian! I'm interested in discussing a project with you. Could we talk about potential collaboration?"
                       : "Halo Fabian! Saya tertarik untuk mendiskusikan proyek dengan Anda. Bisakah kita berbicara tentang kemungkinan kolaborasi?"
                   )
@@ -877,8 +942,8 @@ function App() {
               </Button>
             </motion.div>
           </motion.div>
-          
-          <motion.div 
+
+          <motion.div
             className="flex justify-center gap-6"
             initial={{ y: 30, opacity: 0 }}
             whileInView={{ y: 0, opacity: 1 }}
@@ -892,17 +957,17 @@ function App() {
             ].map(({ Icon, href }, index) => (
               <motion.div
                 key={index}
-                whileHover={{ 
-                  scale: 1.2, 
+                whileHover={{
+                  scale: 1.2,
                   y: -5,
                   boxShadow: "0 10px 25px rgba(59, 130, 246, 0.3)"
                 }}
                 whileTap={{ scale: 0.9 }}
                 transition={{ type: "spring", stiffness: 300, damping: 20 }}
               >
-                <Button 
-                  variant="outline" 
-                  size="icon" 
+                <Button
+                  variant="outline"
+                  size="icon"
                   className="border-border/50 hover:bg-white/10 hover:border-white/20 backdrop-blur-sm transition-all duration-300"
                   onClick={() => window.open(href, '_blank')}
                 >
@@ -912,7 +977,7 @@ function App() {
             ))}
           </motion.div>
         </div>
-        
+
         {/* Animated background elements for contact section */}
         <motion.div
           className="absolute top-10 left-10 w-20 h-20 border border-blue-500/20 rounded-full"
