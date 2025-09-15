@@ -25,15 +25,27 @@ function App() {
 
   // Close mobile menu when clicking outside
   useEffect(() => {
+    if (!isMobileMenuOpen) return
+
     const handleClickOutside = (event: MouseEvent) => {
       const target = event.target as HTMLElement
-      if (isMobileMenuOpen && !target.closest('nav') && !target.closest('.mobile-menu')) {
+      const nav = document.querySelector('nav')
+      const mobileMenu = document.querySelector('[data-mobile-menu]')
+      
+      if (nav && !nav.contains(target) && mobileMenu && !mobileMenu.contains(target)) {
         setIsMobileMenuOpen(false)
       }
     }
 
-    document.addEventListener('click', handleClickOutside)
-    return () => document.removeEventListener('click', handleClickOutside)
+    // Small delay to prevent immediate closing
+    const timer = setTimeout(() => {
+      document.addEventListener('click', handleClickOutside)
+    }, 100)
+
+    return () => {
+      clearTimeout(timer)
+      document.removeEventListener('click', handleClickOutside)
+    }
   }, [isMobileMenuOpen])
 
   // Project data
@@ -269,15 +281,24 @@ function App() {
             {/* Mobile Menu Button */}
             <motion.button
               className="md:hidden p-2 rounded-lg hover:bg-white/10 transition-colors"
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              whileHover={{ scale: 1.1 }}
+              onClick={(e) => {
+                e.preventDefault()
+                e.stopPropagation()
+                setIsMobileMenuOpen(!isMobileMenuOpen)
+              }}
+              whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              {isMobileMenuOpen ? (
-                <X className="h-6 w-6 text-foreground" />
-              ) : (
-                <Menu className="h-6 w-6 text-foreground" />
-              )}
+              <motion.div
+                animate={{ rotate: isMobileMenuOpen ? 180 : 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                {isMobileMenuOpen ? (
+                  <X className="h-6 w-6 text-foreground" />
+                ) : (
+                  <Menu className="h-6 w-6 text-foreground" />
+                )}
+              </motion.div>
             </motion.button>
           </div>
         </div>
@@ -287,36 +308,43 @@ function App() {
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="fixed top-[73px] left-0 right-0 z-50 md:hidden bg-card/95 backdrop-blur-md border-b border-border shadow-lg mobile-menu overflow-hidden"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.3, ease: "easeOut" }}
+            className="fixed top-[73px] left-0 right-0 z-50 md:hidden bg-background/95 backdrop-blur-md border-b border-border/40 shadow-xl"
+            data-mobile-menu
           >
-            <div className="px-6 py-6">
-              <div className="flex flex-col space-y-4">
+            <div className="container mx-auto px-6 py-6">
+              <div className="flex flex-col space-y-1">
                 {Object.entries(t.nav).map(([key, value], index) => (
                   <motion.a
                     key={key}
                     href={`#${key}`}
-                    className="text-lg text-foreground hover:text-primary transition-all duration-300 py-3 border-b border-border/20 last:border-b-0 block"
-                    initial={{ x: -20, opacity: 0 }}
-                    animate={{ x: 0, opacity: 1 }}
+                    className="text-lg text-muted-foreground hover:text-foreground hover:bg-muted/10 transition-all duration-300 py-4 px-4 rounded-lg border-b border-border/10 last:border-b-0"
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
                     transition={{
                       delay: 0.1 * index,
                       duration: 0.3
                     }}
                     onClick={() => setIsMobileMenuOpen(false)}
-                    whileHover={{ x: 10 }}
+                    whileHover={{ x: 4, backgroundColor: "rgba(255,255,255,0.05)" }}
+                    whileTap={{ scale: 0.98 }}
                   >
                     {value}
                   </motion.a>
                 ))}
                 
                 {/* Language Toggle in Mobile Menu */}
-                <div className="pt-4 border-t border-border/20">
+                <motion.div 
+                  className="pt-4 mt-4 border-t border-border/20 flex justify-center"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.4 }}
+                >
                   <LanguageToggle />
-                </div>
+                </motion.div>
               </div>
             </div>
           </motion.div>
