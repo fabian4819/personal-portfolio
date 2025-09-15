@@ -269,10 +269,7 @@ function App() {
             {/* Mobile Menu Button */}
             <motion.button
               className="md:hidden p-2 rounded-lg hover:bg-white/10 transition-colors"
-              onClick={() => {
-                console.log('Hamburger clicked, current state:', isMobileMenuOpen)
-                setIsMobileMenuOpen(!isMobileMenuOpen)
-              }}
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
             >
@@ -290,19 +287,19 @@ function App() {
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
-            initial={{ y: -300, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            exit={{ y: -300, opacity: 0 }}
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="fixed top-[73px] left-0 right-0 z-40 md:hidden bg-background/95 backdrop-blur-md border-b border-border/40 mobile-menu"
+            className="fixed top-[73px] left-0 right-0 z-50 md:hidden bg-card/95 backdrop-blur-md border-b border-border shadow-lg mobile-menu overflow-hidden"
           >
-            <div className="container mx-auto px-6 py-6">
+            <div className="px-6 py-6">
               <div className="flex flex-col space-y-4">
                 {Object.entries(t.nav).map(([key, value], index) => (
                   <motion.a
                     key={key}
                     href={`#${key}`}
-                    className="text-lg text-muted-foreground hover:text-foreground transition-all duration-300 py-3 border-b border-border/20 last:border-b-0"
+                    className="text-lg text-foreground hover:text-primary transition-all duration-300 py-3 border-b border-border/20 last:border-b-0 block"
                     initial={{ x: -20, opacity: 0 }}
                     animate={{ x: 0, opacity: 1 }}
                     transition={{
@@ -315,6 +312,11 @@ function App() {
                     {value}
                   </motion.a>
                 ))}
+                
+                {/* Language Toggle in Mobile Menu */}
+                <div className="pt-4 border-t border-border/20">
+                  <LanguageToggle />
+                </div>
               </div>
             </div>
           </motion.div>
