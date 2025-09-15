@@ -896,7 +896,7 @@ function App() {
 
           <div className="grid md:grid-cols-3 gap-8">
             {[
-              { title: t.skills.web2, color: 'blue', skills: ['React', 'TypeScript', 'Node.js', 'Next.js', 'Tailwind CSS', 'PostgreSQL'] },
+              { title: t.skills.web2, color: 'blue', skills: ['React', 'TypeScript', 'Node.js', 'Next.js', 'Tailwind CSS', 'PostgreSQL', 'Laravel', 'PHP', 'Vite JS', 'Mesh JS', 'Express JS', 'MySQL', 'Flutter', 'Kotlin', 'Firebase'] },
               { title: t.skills.web3, color: 'purple', skills: ['Solidity', 'Web3.js', 'Ethers.js', 'Hardhat', 'IPFS', 'MetaMask'] },
               { title: t.skills.tools, color: 'green', skills: ['Git', 'Docker', 'AWS', 'Figma', 'Vercel', 'MongoDB'] }
             ].map(({ title, color, skills }, categoryIndex) => (
