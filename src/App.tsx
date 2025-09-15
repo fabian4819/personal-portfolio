@@ -9,7 +9,7 @@ import { ProjectModal } from "@/components/ProjectModal"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { GitHubLogoIcon, LinkedInLogoIcon } from '@radix-ui/react-icons'
-import { Mail, ExternalLink, Code2, Rocket, Globe, Cpu, Database, Menu, X } from 'lucide-react'
+import { Mail, Code2, Rocket, Globe, Cpu, Database, Menu, X } from 'lucide-react'
 import type { Project } from '@/types/project'
 
 function App() {
@@ -789,30 +789,6 @@ function App() {
                         <p className="text-muted-foreground mb-4">
                           {project.description}
                         </p>
-                        <div className="flex gap-2">
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={(e) => {
-                              e.stopPropagation()
-                              window.open(project.demoLink, '_blank')
-                            }}
-                          >
-                            <ExternalLink className="mr-2 h-3 w-3" />
-                            {t.projects.viewProject}
-                          </Button>
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={(e) => {
-                              e.stopPropagation()
-                              window.open(project.codeLink, '_blank')
-                            }}
-                          >
-                            <Code2 className="mr-2 h-3 w-3" />
-                            {t.projects.viewCode}
-                          </Button>
-                        </div>
                       </CardContent>
                     </Card>
                   </motion.div>
@@ -856,30 +832,6 @@ function App() {
                         <p className="text-muted-foreground mb-4">
                           {project.description}
                         </p>
-                        <div className="flex gap-2">
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={(e) => {
-                              e.stopPropagation()
-                              window.open(project.demoLink, '_blank')
-                            }}
-                          >
-                            <ExternalLink className="mr-2 h-3 w-3" />
-                            {t.projects.viewProject}
-                          </Button>
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={(e) => {
-                              e.stopPropagation()
-                              window.open(project.codeLink, '_blank')
-                            }}
-                          >
-                            <Code2 className="mr-2 h-3 w-3" />
-                            {t.projects.viewCode}
-                          </Button>
-                        </div>
                       </CardContent>
                     </Card>
                   </motion.div>

@@ -210,24 +210,6 @@ export function ProjectModal({ isOpen, onClose, project }: ProjectModalProps) {
                   </div>
                 )}
 
-                <div className="flex flex-col sm:flex-row gap-4">
-                  {project.demoLink && (
-                    <Button
-                      className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
-                      onClick={() => window.open(project.demoLink, '_blank')}
-                    >
-                      View Demo
-                    </Button>
-                  )}
-                  {project.codeLink && (
-                    <Button
-                      variant="outline"
-                      onClick={() => window.open(project.codeLink, '_blank')}
-                    >
-                      View Code
-                    </Button>
-                  )}
-                </div>
               </div>
             </motion.div>
           </div>
