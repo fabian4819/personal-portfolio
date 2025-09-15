@@ -68,9 +68,162 @@ function App() {
         icon: Cpu,
         demoLink: 'https://demo-nft.example.com',
         codeLink: 'https://github.com/fabian4819/nft-marketplace'
+      },
+      {
+        id: 'mallvest',
+        title: language === 'en' ? 'Mallvest' : 'Mallvest',
+        description: language === 'en'
+          ? 'Platform to revolutionize mall investments through blockchain technology'
+          : 'Platform untuk merevolusi investasi mall melalui teknologi blockchain',
+        longDescription: language === 'en'
+          ? 'Mallvest is revolutionizing mall investments through blockchain technology. Our platform allows users to tokenize, trade, and manage mall properties with unprecedented transparency and efficiency. By leveraging smart contracts and decentralized technology, we make real estate investment more accessible, liquid, and transparent for investors worldwide.'
+          : 'Mallvest merevolusi investasi mall melalui teknologi blockchain. Platform kami memungkinkan pengguna untuk tokenisasi, trading, dan mengelola properti mall dengan transparansi dan efisiensi yang belum pernah ada sebelumnya. Dengan memanfaatkan smart contract dan teknologi terdesentralisasi, kami membuat investasi real estate lebih mudah diakses, likuid, dan transparan untuk investor di seluruh dunia.',
+        image: '/assets/mallvest-1.png',
+        images: ['/assets/mallvest-1.png', '/assets/mallvest-2.png'],
+        video: '/assets/mallvest.mp4',
+        technologies: ['Solidity', 'React', 'Web3.js', 'Node.js', 'MongoDB', 'Ethereum', 'Smart Contracts'],
+        icon: Globe,
+        demoLink: 'https://mallvest.demo.com',
+        codeLink: 'https://github.com/fabian4819/mallvest'
+      },
+      {
+        id: 'trustbridge',
+        title: language === 'en' ? 'TrustBridge' : 'TrustBridge',
+        description: language === 'en'
+          ? 'Revolutionary cross-border payments using WhatsApp and Cardano blockchain'
+          : 'Pembayaran lintas batas revolusioner menggunakan WhatsApp dan blockchain Cardano',
+        longDescription: language === 'en'
+          ? 'TrustBridge is a revolutionary cross-border payment platform that leverages WhatsApp messages and Cardano blockchain technology. Send money to anyone, anywhere, instantly and securely. The platform features an intuitive dashboard for managing transactions and seamless WhatsApp integration that allows users to initiate payments through familiar messaging interfaces. Built on Cardano for enhanced security and lower transaction fees.'
+          : 'TrustBridge adalah platform pembayaran lintas batas revolusioner yang memanfaatkan pesan WhatsApp dan teknologi blockchain Cardano. Kirim uang ke siapa saja, di mana saja, secara instan dan aman. Platform ini menampilkan dashboard intuitif untuk mengelola transaksi dan integrasi WhatsApp yang mulus yang memungkinkan pengguna memulai pembayaran melalui antarmuka perpesanan yang familiar. Dibangun di atas Cardano untuk keamanan yang ditingkatkan dan biaya transaksi yang lebih rendah.',
+        image: '/assets/trustbridge-1.png',
+        images: ['/assets/trustbridge-1.png', '/assets/trustbridge-2.png'],
+        video: '/assets/trustbridge.mp4',
+        technologies: ['Cardano', 'Plutus', 'React', 'Node.js', 'WhatsApp API', 'TypeScript', 'Smart Contracts'],
+        icon: Rocket,
+        demoLink: 'https://trustbridge.demo.com',
+        codeLink: 'https://github.com/fabian4819/trustbridge'
       }
     ],
     web2: [
+      {
+        id: 'warasin',
+        title: language === 'en' ? 'Warasin' : 'Warasin',
+        description: language === 'en'
+          ? 'Mental health platform with emotional analyzer and smart features'
+          : 'Platform website mental health untuk emotional analyzer dengan fitur pintar',
+        longDescription: language === 'en'
+          ? 'Warasin is a comprehensive mental health platform website designed for emotional analysis. Features include mood analyzer for tracking emotional states, smart journal for reflective writing, facial expression recognition technology, anonymous chatbot for safe conversations, and comprehensive monitoring & reporting tools for mental health professionals.'
+          : 'Warasin adalah platform website mental health yang dirancang untuk emotional analyzer. Fiturnya terdiri dari mood analyzer untuk melacak kondisi emosi, smart journal untuk menulis reflektif, facial expression recognition, chatbot anonim untuk percakapan yang aman, dan tools monitoring & report yang komprehensif untuk profesional kesehatan mental.',
+        image: '/assets/warasin-1.png',
+        images: ['/assets/warasin-1.png', '/assets/warasin-2.png'],
+        video: '/assets/warasin-1.mp4',
+        technologies: ['React', 'Node.js', 'Express', 'MongoDB', 'TensorFlow.js', 'Socket.io', 'Chart.js'],
+        icon: Database,
+        demoLink: 'https://warasin.demo.com',
+        codeLink: 'https://github.com/fabian4819/warasin'
+      },
+      {
+        id: 'kkn-village-websites',
+        title: language === 'en' ? 'KKN Village Profile Websites' : 'Website Profil Desa KKN',
+        description: language === 'en'
+          ? 'Three village profile websites for Ngadi, Dullah, and Labetawi villages'
+          : 'Tiga website profil desa untuk Desa Ngadi, Dullah, dan Labetawi',
+        longDescription: language === 'en'
+          ? 'Community service project (KKN - Kuliah Kerja Nyata) creating three comprehensive village profile websites for Ngadi, Dullah, and Labetawi villages in Tual City, Maluku Province, Indonesia. Features include village profile videos, community podcasts, traditional cuisine showcase, village organizational structure, interactive village maps, village articles, BMI calculator, and comprehensive village information. These websites help preserve local culture and provide digital presence for remote villages.'
+          : 'Proyek Kuliah Kerja Nyata (KKN) membuat tiga website profil desa yang komprehensif untuk Desa Ngadi, Dullah, dan Labetawi di Kota Tual, Provinsi Maluku, Indonesia. Fitur meliputi video profil desa, podcast bersama warga, showcase makanan khas, struktur organisasi desa, peta desa interaktif, artikel desa, kalkulator tes BMI, dan informasi lengkap mengenai desa. Website ini membantu melestarikan budaya lokal dan memberikan kehadiran digital untuk desa-desa terpencil.',
+        image: '/assets/kkn-1.png',
+        images: ['/assets/kkn-1.png', '/assets/kkn-2.png'],
+        video: '/assets/kkn.mp4',
+        technologies: ['Next.js', 'Tailwind CSS', 'Leaflet Maps', 'Strapi CMS', 'PostgreSQL', 'Vercel'],
+        icon: Globe,
+        demoLink: 'https://desa-ngadi.vercel.app',
+        codeLink: 'https://github.com/fabian4819/kkn-village-websites'
+      },
+      {
+        id: 'borobudur-explorer',
+        title: language === 'en' ? 'Borobudur Explorer' : 'Borobudur Explorer',
+        description: language === 'en'
+          ? 'Mobile app for Borobudur temple tourism and cultural preservation'
+          : 'Aplikasi mobile untuk wisata Candi Borobudur dan pelestarian budaya',
+        longDescription: language === 'en'
+          ? 'A mobile application created for the world wonder of Borobudur Temple. Features focus on navigation for tourists and cultural preservation with Borobudurpedia packaged as informative articles about the temple\'s history, architecture, and cultural significance.'
+          : 'Aplikasi mobile yang dibuat untuk keajaiban dunia Candi Borobudur. Fiturnya berfokus pada navigasi untuk turis dan pelestarian budaya dengan adanya Borobudurpedia yang dikemas sebagai artikel informatif tentang sejarah, arsitektur, dan makna budaya candi.',
+        image: '/assets/borobudur-1.jpeg',
+        images: ['/assets/borobudur-1.jpeg', '/assets/borobudur-2.jpeg'],
+        video: '/assets/borobudur.mp4',
+        technologies: ['React Native', 'TypeScript', 'Firebase', 'Google Maps API', 'AsyncStorage'],
+        icon: Globe,
+        demoLink: 'https://play.google.com/store/apps/borobudur-explorer',
+        codeLink: 'https://github.com/fabian4819/borobudur-explorer'
+      },
+      {
+        id: 'gastreit',
+        title: language === 'en' ? 'GASTREIT' : 'GASTREIT',
+        description: language === 'en'
+          ? 'Mobile app for gastric acid quality monitoring with doctor consultation'
+          : 'Aplikasi mobile untuk pemantauan kualitas asam lambung dengan konsultasi dokter',
+        longDescription: language === 'en'
+          ? 'A mobile application created for monitoring patients\' gastric acid quality, equipped with gastric acid visualization features and doctor-patient consultation capabilities. Helps patients track their gastric health and connect with healthcare professionals.'
+          : 'Aplikasi mobile yang dibuat untuk pemantauan kualitas asam lambung pasien dilengkapi dengan fitur visualisasi asam lambung dan konsultasi dokter & pasien. Membantu pasien melacak kesehatan lambung dan terhubung dengan tenaga medis.',
+        image: '/assets/gastreit-1.jpeg',
+        images: ['/assets/gastreit-1.jpeg', '/assets/gastreit-2.jpeg'],
+        video: '/assets/gastreit.mp4',
+        technologies: ['React Native', 'Node.js', 'MongoDB', 'Socket.io', 'Chart.js', 'Firebase'],
+        icon: Database,
+        demoLink: 'https://play.google.com/store/apps/gastreit',
+        codeLink: 'https://github.com/fabian4819/gastreit'
+      },
+      {
+        id: 'perdana-property',
+        title: language === 'en' ? 'Perdana Property' : 'Perdana Property',
+        description: language === 'en'
+          ? 'Real estate marketing website for housing and boarding house assets'
+          : 'Website pemasaran properti untuk asset perumahan dan kos-kosan',
+        longDescription: language === 'en'
+          ? 'Perdana Property is a comprehensive real estate marketing website designed to promote housing and boarding house assets. Features include detailed property information with pricing, area specifications, high-quality images, and financing schemes. The platform also includes WhatsApp integration for direct consultation with property agents, making it easy for potential buyers to get immediate assistance and information about available properties.'
+          : 'Perdana Property adalah website pemasaran properti yang komprehensif untuk memasarkan asset perumahan dan kos-kosan. Fitur meliputi informasi detail mengenai properti dengan harga, luas area, gambar berkualitas tinggi, dan skema pembiayaan. Platform ini juga dilengkapi dengan integrasi WhatsApp untuk konsultasi langsung dengan agen properti, memudahkan calon pembeli mendapatkan bantuan dan informasi segera tentang properti yang tersedia.',
+        image: '/assets/perdanaproperty-1.png',
+        images: ['/assets/perdanaproperty-1.png', '/assets/perdanaproperty-2.png'],
+        video: '/assets/perdanaproperty.mp4',
+        technologies: ['Next.js', 'React', 'Tailwind CSS', 'WhatsApp API', 'MongoDB', 'Vercel'],
+        icon: Globe,
+        demoLink: 'https://perdanaproperty.demo.com',
+        codeLink: 'https://github.com/fabian4819/perdana-property'
+      },
+      {
+        id: 'roetix',
+        title: language === 'en' ? 'Roetix' : 'Roetix',
+        description: language === 'en'
+          ? 'Comprehensive ticketing platform supporting both seating and seatless events'
+          : 'Platform ticketing komprehensif yang mendukung event seating dan seatless',
+        longDescription: language === 'en'
+          ? 'Roetix is a comprehensive ticketing platform that supports both seating and seatless event configurations. The platform features multiple event management capabilities with detailed event information, interactive seat selection for seated events, integrated payment gateway, and complete payment processing within a single platform. Users can browse various events, view event details, select their preferred seats (for seated events), and complete purchases through secure payment processing.'
+          : 'Roetix adalah platform ticketing komprehensif yang mendukung konfigurasi event seating dan seatless. Platform ini memiliki fitur manajemen multiple event dengan informasi detail event, pemilihan seat interaktif untuk event berseating, payment gateway terintegrasi, dan proses pembayaran lengkap dalam satu platform. User dapat browse berbagai event, melihat detail event, memilih seat yang diinginkan (untuk seated event), dan menyelesaikan pembelian melalui proses pembayaran yang aman.',
+        image: '/assets/roetix-1.png',
+        images: ['/assets/roetix-1.png', '/assets/roetix-2.png'],
+        video: '/assets/roetix.mp4',
+        technologies: ['React', 'Node.js', 'Express', 'PostgreSQL', 'Stripe', 'Socket.io', 'Tailwind CSS'],
+        icon: Rocket,
+        demoLink: 'https://roetix.demo.com',
+        codeLink: 'https://github.com/fabian4819/roetix'
+      },
+      {
+        id: 'novatix',
+        title: language === 'en' ? 'NovaTix' : 'NovaTix',
+        description: language === 'en'
+          ? 'Concert and orchestra ticketing system with seat mapping and merchandise'
+          : 'Sistem ticketing konser/orkestra dengan seatmap dan merchandise',
+        longDescription: language === 'en'
+          ? 'NovaTix is a specialized ticketing platform designed for concert and orchestra ticket sales. The platform allows buyers to freely select seats based on detailed seat maps, purchase merchandise, and complete full payment processing within a single integrated platform. Features include interactive seat mapping for optimal seat selection, merchandise integration for additional purchases, comprehensive payment gateway, and seamless user experience for concert and orchestra events.'
+          : 'NovaTix adalah platform ticketing khusus yang dibuat untuk sistem penjualan ticket konser/orkestra. Platform ini memungkinkan pembeli untuk leluasa memilih tempat duduk berdasarkan seatmap yang detail, melakukan pembelian merchandise, dan pembayaran full dalam satu platform terintegrasi. Fitur meliputi seatmap interaktif untuk pemilihan seat optimal, integrasi merchandise untuk pembelian tambahan, payment gateway komprehensif, dan user experience yang seamless untuk event konser dan orkestra.',
+        image: '/assets/novatix-1.png',
+        images: ['/assets/novatix-1.png', '/assets/novatix-2.png'],
+        video: '/assets/novatix.mp4',
+        technologies: ['Vue.js', 'Laravel', 'MySQL', 'Stripe', 'WebSocket', 'Bootstrap', 'Redis'],
+        icon: Code2,
+        demoLink: 'https://novatix.demo.com',
+        codeLink: 'https://github.com/fabian4819/novatix'
+      },
       {
         id: 'ecommerce',
         title: language === 'en' ? 'E-Commerce Platform' : 'Platform E-Commerce',

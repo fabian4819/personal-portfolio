@@ -4,6 +4,7 @@ export interface Project {
   description: string
   longDescription?: string
   image?: string
+  images?: string[]
   video?: string
   technologies?: string[]
   icon: React.ComponentType<{ className?: string }>
