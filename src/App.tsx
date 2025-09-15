@@ -9,7 +9,7 @@ import { ProjectModal } from "@/components/ProjectModal"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { GitHubLogoIcon, LinkedInLogoIcon } from '@radix-ui/react-icons'
-import { Mail, ExternalLink, Code2, Rocket, Zap, Globe, Cpu, Database, Menu, X } from 'lucide-react'
+import { Mail, ExternalLink, Code2, Rocket, Globe, Cpu, Database, Menu, X } from 'lucide-react'
 import type { Project } from '@/types/project'
 
 function App() {
@@ -39,36 +39,6 @@ function App() {
   // Project data
   const projectsData = {
     web3: [
-      {
-        id: 'defi-protocol',
-        title: language === 'en' ? 'DeFi Protocol' : 'Protokol DeFi',
-        description: language === 'en'
-          ? 'Decentralized exchange with automated market maker'
-          : 'Pertukaran terdesentralisasi dengan market maker otomatis',
-        longDescription: language === 'en'
-          ? 'A fully decentralized exchange protocol built on Ethereum, featuring automated market making, liquidity pools, and yield farming capabilities. Users can swap tokens, provide liquidity, and earn rewards.'
-          : 'Protokol pertukaran terdesentralisasi yang dibangun di Ethereum, menampilkan pembuatan pasar otomatis, pool likuiditas, dan kemampuan yield farming. Pengguna dapat menukar token, menyediakan likuiditas, dan mendapatkan rewards.',
-        image: '/projects/defi-protocol.png',
-        technologies: ['Solidity', 'Web3.js', 'React', 'Hardhat', 'OpenZeppelin'],
-        icon: Zap,
-        demoLink: 'https://demo-defi.example.com',
-        codeLink: 'https://github.com/fabian4819/defi-protocol'
-      },
-      {
-        id: 'nft-marketplace',
-        title: language === 'en' ? 'NFT Marketplace' : 'NFT Marketplace',
-        description: language === 'en'
-          ? 'Digital art marketplace with minting capabilities'
-          : 'Marketplace seni digital dengan kemampuan minting',
-        longDescription: language === 'en'
-          ? 'A comprehensive NFT marketplace where artists can mint, list, and sell their digital artwork. Features include lazy minting, royalty distribution, and IPFS integration for decentralized storage.'
-          : 'Marketplace NFT komprehensif di mana seniman dapat mint, list, dan menjual karya seni digital mereka. Fitur termasuk lazy minting, distribusi royalti, dan integrasi IPFS untuk penyimpanan terdesentralisasi.',
-        image: '/projects/nft-marketplace.png',
-        technologies: ['Solidity', 'IPFS', 'Next.js', 'ethers.js', 'Tailwind CSS'],
-        icon: Cpu,
-        demoLink: 'https://demo-nft.example.com',
-        codeLink: 'https://github.com/fabian4819/nft-marketplace'
-      },
       {
         id: 'mallvest',
         title: language === 'en' ? 'Mallvest' : 'Mallvest',
@@ -223,37 +193,6 @@ function App() {
         icon: Code2,
         demoLink: 'https://novatix.demo.com',
         codeLink: 'https://github.com/fabian4819/novatix'
-      },
-      {
-        id: 'ecommerce',
-        title: language === 'en' ? 'E-Commerce Platform' : 'Platform E-Commerce',
-        description: language === 'en'
-          ? 'Full-featured online shopping platform'
-          : 'Platform belanja online lengkap',
-        longDescription: language === 'en'
-          ? 'A modern e-commerce platform with features including product catalog, shopping cart, payment integration, order tracking, and admin dashboard. Built with scalability and performance in mind.'
-          : 'Platform e-commerce modern dengan fitur katalog produk, keranjang belanja, integrasi pembayaran, pelacakan pesanan, dan dashboard admin. Dibangun dengan skalabilitas dan performa sebagai prioritas.',
-        image: '/projects/ecommerce.png',
-        video: '/projects/ecommerce-demo.mp4',
-        technologies: ['React', 'Node.js', 'PostgreSQL', 'Stripe', 'Redis', 'Docker'],
-        icon: Globe,
-        demoLink: 'https://demo-shop.example.com',
-        codeLink: 'https://github.com/fabian4819/ecommerce'
-      },
-      {
-        id: 'saas-dashboard',
-        title: language === 'en' ? 'SaaS Dashboard' : 'Dashboard SaaS',
-        description: language === 'en'
-          ? 'Analytics dashboard for business metrics'
-          : 'Dashboard analitik untuk metrik bisnis',
-        longDescription: language === 'en'
-          ? 'A comprehensive SaaS analytics dashboard providing real-time insights, data visualization, and reporting tools. Features include customizable widgets, export capabilities, and multi-tenant support.'
-          : 'Dashboard analitik SaaS komprehensif yang menyediakan wawasan real-time, visualisasi data, dan alat pelaporan. Fitur termasuk widget yang dapat disesuaikan, kemampuan ekspor, dan dukungan multi-tenant.',
-        image: '/projects/saas-dashboard.png',
-        technologies: ['Vue.js', 'D3.js', 'Python', 'Django', 'PostgreSQL', 'AWS'],
-        icon: Rocket,
-        demoLink: 'https://demo-saas.example.com',
-        codeLink: 'https://github.com/fabian4819/saas-dashboard'
       }
     ]
   }
